@@ -1,1 +1,15 @@
 rootProject.name = 'hotel'
+
+def includeSubdirectories() {
+    def currentDir = rootProject.projectDir
+    currentDir.eachDir { subDir ->
+        if (isSubprojectDirectories(subDir))
+            include "${subDir.path.substring(rootProject.projectDir.path.length()).replace(File.separator, ":")}"
+    }
+}
+
+def isSubprojectDirectories(File directories) {
+    return file("$directories/build.gradle").exists()
+}
+
+includeSubdirectories()
