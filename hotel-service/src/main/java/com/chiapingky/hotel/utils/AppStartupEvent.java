@@ -1,12 +1,14 @@
 package com.chiapingky.hotel.utils;
 
 import com.chiapingky.hotel.business.ReservationService;
+import com.chiapingky.hotel.business.RoomReservation;
 import com.chiapingky.hotel.repository.room.*;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.List;
 
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
@@ -20,13 +22,14 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
             RoomRepository roomRepository,
             GuestRepository guestRepository,
             ReservationRepository reservationRepository,
-            ReservationService reservationService
+            ReservationService reservationService,
+            DateUtils dateUtils
     ) {
         this.roomRepository = roomRepository;
         this.guestRepository = guestRepository;
         this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
-        dateUtils = new DateUtils();
+        this.dateUtils = dateUtils;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
         guests.forEach(System.out::println);
         Iterable<Reservation> reservations = reservationRepository.findAll();
         reservations.forEach(System.out::println);
-        System.out.println(reservationService.getRoomReservationsForDate(new Date(2022, 0, 1)));
+        List<RoomReservation> roomReservationList = reservationService.getRoomReservationsForDate(dateUtils.createDateFromDateString("2022-01-01"));
+        roomReservationList.forEach(System.out::println);
     }
 }
