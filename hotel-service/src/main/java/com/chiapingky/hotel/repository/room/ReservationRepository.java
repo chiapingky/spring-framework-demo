@@ -1,6 +1,6 @@
 package com.chiapingky.hotel.repository.room;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
