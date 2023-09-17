@@ -1,0 +1,9 @@
+version: "2.0"
+services:
+  app-service:
+    image: openjdk:17
+    volumes:
+      - ${JAR_FILE}:/app.jar #fill JAR_FILE with .jar in service/build/libs
+    entrypoint: ["java", "-jar", "./app.jar"]
+    ports:
+      - 8080:8080
